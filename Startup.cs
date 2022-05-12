@@ -1,5 +1,11 @@
+using GraphiQl;
+using GraphQL.Server;
+using GraphQL.Types;
 using GraphQLAPI.Interfaces;
+using GraphQLAPI.Query;
+using GraphQLAPI.Schema;
 using GraphQLAPI.Services;
+using GraphQLAPI.Type;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +41,13 @@ namespace GraphQLAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphQLAPI", Version = "v1" });
             });
             services.AddTransient<IProductService, ProductService>();
+            services.AddSingleton<ProductType>();
+            services.AddSingleton<ProductQuery>();
+            services.AddSingleton<ISchema, ProductSchema>();
+
+            services.AddGraphQL(options=> {
+                options.EnableMetrics = false;
+            }).AddSystemTextJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,16 +60,9 @@ namespace GraphQLAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQLAPI v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseGraphiQl("/graphql");
+            app.UseGraphQL<ISchema>();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
