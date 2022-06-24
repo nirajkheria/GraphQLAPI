@@ -12,7 +12,7 @@ namespace GraphQLAPI.Query
     {
         public ReservationQuery(IReservation reservationService)
         {
-            Field<ListGraphType<MenuType>>("reservations", resolve: context => {
+            Field<ListGraphType<ReservationType>>("reservations", resolve: context => {
                 return reservationService.GetReservations();
             });
         }
