@@ -43,17 +43,30 @@ namespace GraphQLAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphQLAPI", Version = "v1" });
             });
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<ProductType>();
-            services.AddTransient<ProductQuery>();
-            services.AddTransient<ProductMutation>();
-            services.AddTransient<ISchema, ProductSchema>();
+            services.AddTransient<IMenu, MenuService>();
+            services.AddTransient<ISubMenu, SubMenuService>();
+            services.AddTransient<IReservation, ReservationService>();
+            services.AddTransient<MenuType>();
+            services.AddTransient<SubMenuType>();
+            services.AddTransient<ReservationType>();
+            services.AddTransient<MenuQuery>();
+            services.AddTransient<SubMenuQuery>();
+            services.AddTransient<ReservationQuery>();
+            services.AddTransient<RootQuery>();
+            services.AddTransient<MenuMutation>();
+            services.AddTransient<SubMenuMutation>();
+            services.AddTransient<ReservationMutation>();
+            services.AddTransient<RootMutation>();
+            services.AddTransient<MenuInputType>();
+            services.AddTransient<SubMenuInputType>();
+            services.AddTransient<ReservationInputType>();
+            services.AddTransient<ISchema, RootSchema>();
 
             services.AddGraphQL(options=> {
                 options.EnableMetrics = false;
             }).AddSystemTextJson();
 
-            services.AddDbContext<GraphQLDbContext>(option => option.UseSqlServer(@"Data Source= (localdb)\MSSQLLocalDB;Initial Catalog=GraphQLDb;Integrated Security = True"));
+            services.AddDbContext<GraphQLDbContext>(option => option.UseSqlServer(@"Data Source= (localdb)\MSSQLLocalDB;Initial Catalog=CoffeeShopDb;Integrated Security = True"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

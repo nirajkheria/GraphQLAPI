@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace GraphQLAPI.Type
 {
-    public class ProductType : ObjectGraphType<Product>
+    public class MenuType : ObjectGraphType<Menu>
     {
-        public ProductType()
+        public MenuType()
         {
-            Field(p => p.Id);
-            Field(p => p.Name);
-            Field(p => p.Price);
+            Field(m => m.Id);
+            Field(m => m.Name);
+            Field(m => m.ImageUrl);
         }
     }
 }
